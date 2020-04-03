@@ -1,0 +1,12 @@
+FROM vnfm_ui_base:v1
+LABEL maintainer="wanjun_csd@si-tech.com.cn"
+
+RUN cp -r /vnfm_ui/node_modules /tmp
+RUN rm -rf /vnfm_ui/*
+COPY . /vnfm_ui
+RUN cp -r /tmp/node_modules /vnfm_ui
+
+RUN npm run build && cp -r /vnfm_ui/dist /etc/nginx
+CMD ["/usr/sbin/nginx","-c","/etc/nginx/nginx.conf"]
+
+EXPOSE 80
